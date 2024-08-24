@@ -20,13 +20,13 @@ const NewsItem: React.FC<Props> = ({title, id, createdAt,image,isLoading}) => {
   if (image) {
     cardImage = `http://localhost:8000/${image}`;
   }
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const onRemove = async () => {
     if (window.confirm('Are you sure you want to remove?')) {
-      await dispatch(removePost(id))
+      await dispatch(removePost(id));
       await dispatch(fetchNews());
     }
-  }
+  };
 
   return (
     <Grid item sx={{width: '300px'}}>
