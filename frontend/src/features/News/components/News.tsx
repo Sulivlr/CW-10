@@ -1,7 +1,7 @@
 import {Button, Grid, Typography} from '@mui/material';
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
-import {selectNews} from './NewsSlice';
+import {selectNews, selectRemovePost} from './NewsSlice';
 import NewsItem from './NewsItem';
 import {useEffect} from 'react';
 import {fetchNews} from './newsThunks';
@@ -9,6 +9,7 @@ import {fetchNews} from './newsThunks';
 const News = () => {
   const dispatch = useAppDispatch();
   const news = useAppSelector(selectNews);
+  const mutatingId = useAppSelector(selectRemovePost);
 
   useEffect(() => {
     dispatch(fetchNews());
@@ -34,6 +35,7 @@ const News = () => {
             title={post.title}
             createdAt={post.createdAt}
             image={post.image}
+            isLoading={post.id === mutatingId}
           />
         ))}
       </Grid>

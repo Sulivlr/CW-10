@@ -1,6 +1,6 @@
 import {News} from '../../../types';
 import {createSlice} from '@reduxjs/toolkit';
-import {createNews, fetchNews, fetchOneNews} from './newsThunks';
+import {createNews, fetchNews, fetchOneNews, removePost} from './newsThunks';
 
 export interface NewsState {
   news: News[];
@@ -8,6 +8,7 @@ export interface NewsState {
   isCreating: boolean;
   post: News | null;
   oneFetching: boolean;
+  changingId: string | null;
 }
 
 const initialState: NewsState = {
@@ -16,6 +17,7 @@ const initialState: NewsState = {
   isCreating: false,
   post: null,
   oneFetching: false,
+  changingId: null,
 };
 
 export const newsSlice = createSlice({
@@ -49,6 +51,14 @@ export const newsSlice = createSlice({
     }).addCase(fetchOneNews.rejected, (state) => {
       state.oneFetching = false;
     });
+
+    builder.addCase(removePost.pending, (state, {meta: {arg: postId}}) => {
+      state.changingId = postId;
+    }).addCase(removePost.fulfilled, (state) => {
+      state.changingId = null;
+    }).addCase(removePost.rejected, (state) => {
+      state.changingId = null;
+    })
   },
   selectors: {
     selectNews: (state) => state.news,
@@ -56,6 +66,7 @@ export const newsSlice = createSlice({
     selectNewsCreating: (state) => state.isCreating,
     selectOnePost: (state) => state.post,
     selectOnePostFetching: (state) => state.oneFetching,
+    selectRemovePost: (state) => state.changingId,
   }
 });
 
@@ -67,4 +78,5 @@ export const {
   selectNewsCreating,
   selectOnePost,
   selectOnePostFetching,
+  selectRemovePost,
 } = newsSlice.selectors;
