@@ -11,3 +11,16 @@ export interface NewsMutation {
   content: string;
   image: string | null;
 }
+
+export interface Commentary {
+  id: number;
+  news_id: number;
+  author: string | 'Anonymous';
+  text: string | null;
+}
+
+export interface CommentsMutation {
+  news_id: number;
+  author: string | 'Anonymous';
+  text: string | null;
+}
